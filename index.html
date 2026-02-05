@@ -3,51 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <!-- SHA-256 based password protection -->
-  <script>
-    // =====================================================================
-    //          PASSWORD PROTECTION - ONLY THIS PART IS CHANGED
-    // =====================================================================
-
-    // This is the SHA-256 hash of your secret password
-    // Example: "sunnyrunniya2025" → generate your own hash!
-    const CORRECT_HASH = "12d3ea3d3c1ce8e8fef7e08055b676ffe6b6c491c71f8705a41fcecf58c714e8";
-
-    // Very simple inline SHA-256 implementation (no external library)
-    async function sha256(str) {
-      const msgBuffer = new TextEncoder().encode(str);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    // Ask for password immediately
-    const enteredPassword = prompt("Enter our secret password 💕");
-
-    if (!enteredPassword) {
-      document.documentElement.innerHTML = '<h1 style="text-align:center; margin-top:20vh; color:#fff; background:#000; height:100vh; display:flex; align-items:center; justify-content:center;">Access Denied 💔</h1>';
-      throw new Error("No password entered");
-    }
-
-    // Check hash (we use lowercase + trim to make it a bit more forgiving)
-    sha256(enteredPassword.trim().toLowerCase())
-      .then(hash => {
-        if (hash !== CORRECT_HASH) {
-          document.documentElement.innerHTML = '<h1 style="text-align:center; margin-top:20vh; color:#fff; background:#000; height:100vh; display:flex; align-items:center; justify-content:center;">Wrong password 💔</h1>';
-          throw new Error("Incorrect password");
-        }
-        // If correct → continue normally (nothing else happens here)
-      })
-      .catch(err => {
-        console.error(err);
-        // In case of any crypto error (very rare)
-        document.documentElement.innerHTML = '<h1 style="text-align:center; margin-top:20vh;">Something went wrong</h1>';
-      });
-
-    // =====================================================================
-    //                   ORIGINAL CODE CONTINUES BELOW
-    // =====================================================================
-  </script>
   <title>Will You Be My Valentine? ❤️</title>
   <style>
     * {
