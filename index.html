@@ -5,56 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Will You Be My Valentine? ❤️</title>
 
-<!-- PASSWORD PROTECTION – this version actually blocks the page -->
-<script>
-    // ================================================================
-    //   PUT YOUR REAL SHA-256 HASH HERE
-    //   Generate it at: https://emn178.github.io/online-tools/sha256.html
-    //   (lowercase, no spaces, paste exactly)
-    // ================================================================
-    const CORRECT_HASH = "12d3ea3d3c1ce8e8fef7e08055b676ffe6b6c491c71f8705a41fcecf58c714e8";
+  <!-- ===================================================== -->
+  <!--          PASSWORD PROTECTION – STRICT VERSION        -->
+  <!-- ===================================================== -->
+  <script>
+    // CHANGE THIS TO YOUR REAL SHA-256 HASH (lowercase)
+    // Generate it here: https://emn178.github.io/online-tools/sha256.html
+    const CORRECT_HASH = "12d3ea3d3c1ce8e8fef7e08055b676ffe6b6c491c71f8705a41fcecf58c714e8"; // ← REPLACE THIS
 
     async function sha256(str) {
-        const msgBuffer = new TextEncoder().encode(str);
-        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      const msgBuffer = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Immediately hide everything
+    // Hide everything from the very beginning
     document.documentElement.style.display = 'none';
 
-    // Run password check right away
-    (async () => {
-        let password = prompt("Enter the secret password:");
+    (async function enforcePassword() {
+      const entered = prompt("Enter the secret password 💕");
 
-        // Handle cancel or empty
-        if (!password || password.trim() === "") {
-            document.documentElement.innerHTML = `
-                <div style="height:100vh; background:#000; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-family:sans-serif;">
-                    <h1 style="font-size:4rem;">Access Denied</h1>
-                    <p style="font-size:1.6rem; margin-top:1.5rem;">No password entered or cancelled.</p>
-                </div>
-            `;
-            return;
-        }
+      // Cancel button or empty input → denied
+      if (!entered || entered.trim() === '') {
+        showDenied();
+        return;
+      }
 
-        const inputHash = await sha256(password.trim().toLowerCase());
+      const hash = await sha256(entered.trim().toLowerCase());
 
-        if (inputHash === CORRECT_HASH) {
-            // Correct → show the page
-            document.documentElement.style.display = '';
-        } else {
-            // Wrong password
-            document.documentElement.innerHTML = `
-                <div style="height:100vh; background:#000; color:#ff4d6b; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-family:sans-serif;">
-                    <h1 style="font-size:4rem;">Wrong Password</h1>
-                    <p style="font-size:1.6rem; margin-top:1.5rem;">Please refresh the page and try again.</p>
-                </div>
-            `;
-        }
+      if (hash === CORRECT_HASH) {
+        // Correct → show the real page
+        document.documentElement.style.display = '';
+      } else {
+        showDenied();
+      }
     })();
-</script>
+
+    function showDenied() {
+      document.documentElement.innerHTML = `
+        <div style="
+          height: 100vh;
+          width: 100vw;
+          background: #0d0015;
+          color: #ff4d6b;
+          font-family: system-ui, sans-serif;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 20px;
+          font-size: 2.2rem;
+        ">
+          <h1>Access Denied 💔</h1>
+          <p style="margin-top: 1.5rem; font-size: 1.3rem; max-width: 500px;">
+            Wrong or no password.<br>
+            Refresh the page to try again.
+          </p>
+        </div>
+      `;
+    }
+  </script>
 
   <style>
     * {
