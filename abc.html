@@ -269,12 +269,64 @@
     let afterNoTitle = "Still have a chance to be my Valentine? 🥺💔";
     let afterNoHint = "Please... reconsider? 🥹";
 
-    if (month === 2 && day >= 7 && day <= 14) {
+    if (month === 2 && day >= 1 && day <= 5) {
       switch(day) {
-        case 7: title = "Will You Accept My Rose?"; mainEmoji = "🌹"; floating = ["🌹","🌷","💮","🌺"]; afterNoTitle = "Still want my rose? 🌹🥺"; break;
-        case 8: title = "Will You Marry Me?"; mainEmoji = "💍"; floating = ["💍","💎","💕"]; afterNoTitle = "Still time to say yes... 💍🥺"; break;
-        case 9: title = "Will You Be My Sweetheart?"; mainEmoji = "🍫"; floating = ["🍫","🍬","🍭"]; afterNoTitle = "Still want my chocolate? 🍫🥺"; break;
-        case 14: title = "Be My Valentine Forever?"; mainEmoji = "💘"; floating = ["💘","❤️","💖"]; afterNoTitle = "Still my Valentine? 💘🥺"; break;
+        case 7: // Rose Day
+          title = "Will You Accept My Rose?";
+          mainEmoji = "🌹";
+          floating = ["🌹","🌷","💮","🌺","🏵️"];
+          successMsg = "You said YES to my rose! 🌹💖";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
+        case 8: // Propose Day
+          title = "Will You Marry Me?";
+          mainEmoji = "💍";
+          floating = ["💍","💎","💒","💕","❤️"];
+          successMsg = "YES! You just made me the happiest! 💍🥹";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
+        case 9: // Chocolate Day
+          title = "Will You Be My Sweetheart?";
+          mainEmoji = "🍫";
+          floating = ["🍫","🍬","🍭","💝","❤️"];
+          successMsg = "You accepted my chocolate! 🍫💕";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
+        case 10: // Teddy Day
+          title = "Will You Hug My Teddy?";
+          mainEmoji = "🧸";
+          floating = ["🧸","🐻","💕","❤️"];
+          successMsg = "You chose me and my teddy! 🧸💖";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
+        case 11: // Promise Day
+          title = "Do You Promise to Stay?";
+          mainEmoji = "🔒";
+          floating = ["🔒","🔐","💞","❤️","💍"];
+          successMsg = "Our promise is forever now 🔐💕";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
+        case 12: // Hug Day
+          title = "Can I Hug You Forever?";
+          mainEmoji = "🤗";
+          floating = ["🤗","🫂","💕","❤️"];
+          successMsg = "Your hug means the world to me 🤗💖";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
+        case 13: // Kiss Day
+          title = "May I Kiss You?";
+          mainEmoji = "😘";
+          floating = ["😘","💋","💋","❤️","💕"];
+          successMsg = "You said yes to my kiss 😘💕";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
+        case 14: // Valentine's Day
+          title = "Be My Valentine Forever?";
+          mainEmoji = "💘";
+          floating = ["💘","❤️","💖","💗","💕","💞"];
+          successMsg = "Happy Valentine's Day, my love! 💘";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
+          break;
       }
     }
 
