@@ -5,75 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Will You Be My Valentine? ❤️</title>
 
-  <!-- SHA-256 Password Protection – Prompt shows first -->
-  <script>
+<!-- PASSWORD PROTECTION – this version actually blocks the page -->
+<script>
     // ================================================================
-    //   CHANGE THIS TO YOUR OWN PASSWORD'S SHA-256 HASH
-    //   Generate here: https://emn178.github.io/online-tools/sha256.html
-    //   (lowercase, no spaces)
+    //   PUT YOUR REAL SHA-256 HASH HERE
+    //   Generate it at: https://emn178.github.io/online-tools/sha256.html
+    //   (lowercase, no spaces, paste exactly)
     // ================================================================
     const CORRECT_HASH = "12d3ea3d3c1ce8e8fef7e08055b676ffe6b6c491c71f8705a41fcecf58c714e8";
 
     async function sha256(str) {
-      const msgBuffer = new TextEncoder().encode(str);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        const msgBuffer = new TextEncoder().encode(str);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Run immediately when page starts loading
-    (async function checkPassword() {
-      const enteredPassword = prompt("Enter our secret password 💕");
+    // Immediately hide everything
+    document.documentElement.style.display = 'none';
 
-      if (!enteredPassword) {
-        // User cancelled or empty
-        document.body.innerHTML = `
-          <div style="
-            height: 100vh;
-            background: #111;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-family: sans-serif;
-            font-size: 2.5rem;
-          ">
-            <h1>Access Denied 💔</h1>
-            <p style="margin-top: 1rem; font-size: 1.3rem;">No password entered</p>
-          </div>
-        `;
-        return;
-      }
+    // Run password check right away
+    (async () => {
+        let password = prompt("Enter the secret password:");
 
-      const hash = await sha256(enteredPassword.trim().toLowerCase());
+        // Handle cancel or empty
+        if (!password || password.trim() === "") {
+            document.documentElement.innerHTML = `
+                <div style="height:100vh; background:#000; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-family:sans-serif;">
+                    <h1 style="font-size:4rem;">Access Denied</h1>
+                    <p style="font-size:1.6rem; margin-top:1.5rem;">No password entered or cancelled.</p>
+                </div>
+            `;
+            return;
+        }
 
-      if (hash !== CORRECT_HASH) {
-        document.body.innerHTML = `
-          <div style="
-            height: 100vh;
-            background: #111;
-            color: #ff4d6b;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-family: sans-serif;
-            font-size: 2.5rem;
-          ">
-            <h1>Wrong Password 💔</h1>
-            <p style="margin-top: 1rem; font-size: 1.3rem;">Please refresh the page and try again</p>
-          </div>
-        `;
-        return;
-      }
+        const inputHash = await sha256(password.trim().toLowerCase());
 
-      // Correct password → continue normally
-      // Nothing else needed – original page loads as usual
+        if (inputHash === CORRECT_HASH) {
+            // Correct → show the page
+            document.documentElement.style.display = '';
+        } else {
+            // Wrong password
+            document.documentElement.innerHTML = `
+                <div style="height:100vh; background:#000; color:#ff4d6b; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; font-family:sans-serif;">
+                    <h1 style="font-size:4rem;">Wrong Password</h1>
+                    <p style="font-size:1.6rem; margin-top:1.5rem;">Please refresh the page and try again.</p>
+                </div>
+            `;
+        }
     })();
-  </script>
+</script>
 
   <style>
     * {
