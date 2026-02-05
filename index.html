@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Will You Be My Valentine? ❤️</title>
-
   <!-- SHA-256 based password protection -->
   <script>
     // =====================================================================
@@ -50,7 +48,7 @@
     //                   ORIGINAL CODE CONTINUES BELOW
     // =====================================================================
   </script>
-
+  <title>Will You Be My Valentine? ❤️</title>
   <style>
     * {
       margin: 0;
@@ -190,6 +188,7 @@
       90%  { transform: translate(-6px, 5px) rotate(-4deg); }
     }
 
+    /* Yes screen */
     #yesSection {
       position: fixed;
       inset: 0;
@@ -263,7 +262,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <div class="floating-bg" id="floatingBg"></div>
@@ -287,16 +285,16 @@
     
     <div class="photos">
       <div class="photo-card">
-        <img src="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_1" alt="Memory 1">
+        <img src="file:///C:/Users/kh373f/Downloads/7.jpg" alt="Memory 1">
       </div>
       <div class="photo-card">
-        <img src="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_2" alt="Memory 2">
+        <img src="file:///C:/Users/kh373f/Downloads/7.jpg" alt="Memory 2">
       </div>
       <div class="photo-card">
-        <img src="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_3" alt="Memory 3">
+        <img src="file:///C:/Users/kh373f/Downloads/7.jpg" alt="Memory 3">
       </div>
       <div class="photo-card">
-        <img src="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_4" alt="Memory 4">
+        <img src="file:///C:/Users/kh373f/Downloads/7.jpg" alt="Memory 4">
       </div>
     </div>
 
@@ -323,48 +321,56 @@
           mainEmoji = "🌹";
           floating = ["🌹","🌷","💮","🌺","🏵️"];
           successMsg = "You said YES to my rose! 🌹💖";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
         case 8: // Propose Day
           title = "Will You Marry Me?";
           mainEmoji = "💍";
           floating = ["💍","💎","💒","💕","❤️"];
           successMsg = "YES! You just made me the happiest! 💍🥹";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
         case 9: // Chocolate Day
           title = "Will You Be My Sweetheart?";
           mainEmoji = "🍫";
           floating = ["🍫","🍬","🍭","💝","❤️"];
           successMsg = "You accepted my chocolate! 🍫💕";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
         case 10: // Teddy Day
           title = "Will You Hug My Teddy?";
           mainEmoji = "🧸";
           floating = ["🧸","🐻","💕","❤️"];
           successMsg = "You chose me and my teddy! 🧸💖";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
         case 11: // Promise Day
           title = "Do You Promise to Stay?";
           mainEmoji = "🔒";
           floating = ["🔒","🔐","💞","❤️","💍"];
           successMsg = "Our promise is forever now 🔐💕";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
         case 12: // Hug Day
           title = "Can I Hug You Forever?";
           mainEmoji = "🤗";
           floating = ["🤗","🫂","💕","❤️"];
           successMsg = "Your hug means the world to me 🤗💖";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
         case 13: // Kiss Day
           title = "May I Kiss You?";
           mainEmoji = "😘";
           floating = ["😘","💋","💋","❤️","💕"];
           successMsg = "You said yes to my kiss 😘💕";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
         case 14: // Valentine's Day
           title = "Be My Valentine Forever?";
           mainEmoji = "💘";
           floating = ["💘","❤️","💖","💗","💕","💞"];
           successMsg = "Happy Valentine's Day, my love! 💘";
+		  photoUrls = ["file:///C:/Users/kh373f/Downloads/7.jpg", "..."];
           break;
       }
     }
@@ -414,19 +420,26 @@
       const viewportWidth  = window.innerWidth;
       const viewportHeight = window.innerHeight;
 
+      // Very limited horizontal movement (left-right)
       const maxOffsetX = Math.min(120, viewportWidth  * 0.12);
+
+      // Much stronger vertical movement, especially UPWARDS
       const maxOffsetY = Math.min(280, viewportHeight * 0.32);
+
       const safety = 80;
 
+      // Bias towards UP (negative Y is up)
       let x = (Math.random() - 0.5) * maxOffsetX * 2;
-      let y = (Math.random() - 0.7) * maxOffsetY * 1.4;  // bias upwards
+      let y = (Math.random() - 0.7) * maxOffsetY * 1.4;  // -0.7 bias → more often negative (up)
 
+      // Clamp to keep button fully visible
       x = Math.max(-maxOffsetX + safety, Math.min(maxOffsetX - safety, x));
       y = Math.max(-maxOffsetY + safety, Math.min(maxOffsetY - safety, y));
 
       noContainer.style.transform = `translate(${x}px, ${y}px)`;
       noContainer.style.transition = "transform 0.45s ease-out";
 
+      // Stronger shake
       noBtn.style.animation = "shakeHard 0.8s";
       setTimeout(() => noBtn.style.animation = "", 800);
     }
@@ -448,7 +461,7 @@
       "Still no? 😤💦",
       "You're too cruel... 🥀",
       "My heart can't take this anymore 💔",
-      "Mukka khayega re Runniyyaaa ab 👊🤥"
+	  "Mukka khayega re Runniyyaaa ab 👊🤥"
     ];
 
     noBtn.addEventListener("click", (e) => {
