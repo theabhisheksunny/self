@@ -4,6 +4,70 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Will You Be My Valentine? ❤️</title>
+
+  <!-- SHA-256 Password Protection – Page stays hidden until correct password -->
+  <script>
+    // =====================================================================
+    //           CHANGE THIS HASH TO YOUR OWN SECRET PASSWORD HASH
+    // =====================================================================
+    // Go to: https://emn178.github.io/online-tools/sha256.html
+    // Type your password → copy the lowercase hash → paste below
+    const CORRECT_HASH = "12d3ea3d3c1ce8e8fef7e08055b676ffe6b6c491c71f8705a41fcecf58c714e8";  // ← REPLACE THIS
+
+    // Simple SHA-256 function (browser native)
+    async function sha256(str) {
+      const msgBuffer = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Hide everything immediately
+    document.documentElement.style.display = 'none';
+
+    // Run password check
+    (async () => {
+      const entered = prompt("Enter our secret password 💕");
+
+      if (!entered) {
+        showAccessDenied();
+        return;
+      }
+
+      const inputHash = await sha256(entered.trim().toLowerCase());
+
+      if (inputHash === CORRECT_HASH) {
+        // Correct password → reveal the full page
+        document.documentElement.style.display = '';
+      } else {
+        showAccessDenied();
+      }
+    })();
+
+    function showAccessDenied() {
+      document.documentElement.innerHTML = `
+        <div style="
+          height: 100vh;
+          width: 100vw;
+          background: #111;
+          color: #ff4d6b;
+          font-family: 'Segoe UI', sans-serif;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 20px;
+        ">
+          <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Access Denied 💔</h1>
+          <p style="font-size: 1.4rem; max-width: 500px; opacity: 0.9;">
+            Wrong password.<br>Please refresh the page and try again.
+          </p>
+        </div>
+      `;
+    }
+  </script>
+
   <style>
     * {
       margin: 0;
