@@ -5,16 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Will You Be My Valentine? ❤️</title>
 
-  <!-- SHA-256 Password Protection – Page stays hidden until correct password -->
+  <!-- Minimal password protection - only this block is added -->
   <script>
-    // =====================================================================
-    //           CHANGE THIS HASH TO YOUR OWN SECRET PASSWORD HASH
-    // =====================================================================
-    // Go to: https://emn178.github.io/online-tools/sha256.html
-    // Type your password → copy the lowercase hash → paste below
-    const CORRECT_HASH = "12d3ea3d3c1ce8e8fef7e08055b676ffe6b6c491c71f8705a41fcecf58c714e8";  // ← REPLACE THIS
+    // =============================================
+    //   CHANGE THIS TO YOUR OWN PASSWORD HASH
+    //   Use: https://emn178.github.io/online-tools/sha256.html
+    //   Enter your password → copy lowercase hash
+    // =============================================
+    const CORRECT_HASH = "12d3ea3d3c1ce8e8fef7e08055b676ffe6b6c491c71f8705a41fcecf58c714e8";
 
-    // Simple SHA-256 function (browser native)
     async function sha256(str) {
       const msgBuffer = new TextEncoder().encode(str);
       const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
@@ -22,50 +21,27 @@
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Hide everything immediately
-    document.documentElement.style.display = 'none';
+    // Hide everything right away
+    document.body.style.display = 'none';
 
-    // Run password check
-    (async () => {
-      const entered = prompt("Enter our secret password 💕");
+    // Ask for password immediately
+    (async function() {
+      const password = prompt("Enter our secret password 💕");
 
-      if (!entered) {
-        showAccessDenied();
+      if (!password) {
+        document.body.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-size:2.5rem;">Access Denied 💔</div>';
         return;
       }
 
-      const inputHash = await sha256(entered.trim().toLowerCase());
+      const hash = await sha256(password.trim().toLowerCase());
 
-      if (inputHash === CORRECT_HASH) {
-        // Correct password → reveal the full page
-        document.documentElement.style.display = '';
+      if (hash === CORRECT_HASH) {
+        // Correct password → show the page
+        document.body.style.display = '';
       } else {
-        showAccessDenied();
+        document.body.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#ff4d6b;font-size:2.5rem;">Wrong password 💔<br><small>Refresh and try again</small></div>';
       }
     })();
-
-    function showAccessDenied() {
-      document.documentElement.innerHTML = `
-        <div style="
-          height: 100vh;
-          width: 100vw;
-          background: #111;
-          color: #ff4d6b;
-          font-family: 'Segoe UI', sans-serif;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          padding: 20px;
-        ">
-          <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Access Denied 💔</h1>
-          <p style="font-size: 1.4rem; max-width: 500px; opacity: 0.9;">
-            Wrong password.<br>Please refresh the page and try again.
-          </p>
-        </div>
-      `;
-    }
   </script>
 
   <style>
