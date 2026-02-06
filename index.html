@@ -320,6 +320,11 @@
     <p class="tag">You're mine forever now 💞✨</p>
   </div>
 
+  <!-- ================================================= -->
+  <!--     Valentine Week Background Music             -->
+  <!-- ================================================= -->
+  <audio id="bgMusic" loop preload="auto"></audio>
+
   <script>
     // =================== DATE & THEME LOGIC ===================
     const today = new Date();
@@ -340,56 +345,56 @@
           mainEmoji = "🌹";
           floating = ["🌹","🌷","💮","🌺","🏵️"];
           successMsg = "You said YES to my rose! 🌹💖";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
         case 8: // Propose Day
           title = "Will You Marry Me?";
           mainEmoji = "💍";
           floating = ["💍","💎","💒","💕","❤️"];
           successMsg = "YES! You just made me the happiest! 💍🥹";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
         case 9: // Chocolate Day
           title = "Will You Be My Sweetheart?";
           mainEmoji = "🍫";
           floating = ["🍫","🍬","🍭","💝","❤️"];
           successMsg = "You accepted my chocolate! 🍫💕";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
         case 10: // Teddy Day
           title = "Will You Hug My Teddy?";
           mainEmoji = "🧸";
           floating = ["🧸","🐻","💕","❤️"];
           successMsg = "You chose me and my teddy! 🧸💖";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
         case 11: // Promise Day
           title = "Do You Promise to Stay?";
           mainEmoji = "🔒";
           floating = ["🔒","🔐","💞","❤️","💍"];
           successMsg = "Our promise is forever now 🔐💕";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
         case 12: // Hug Day
           title = "Can I Hug You Forever?";
           mainEmoji = "🤗";
           floating = ["🤗","🫂","💕","❤️"];
           successMsg = "Your hug means the world to me 🤗💖";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
         case 13: // Kiss Day
           title = "May I Kiss You?";
           mainEmoji = "😘";
           floating = ["😘","💋","💋","❤️","💕"];
           successMsg = "You said yes to my kiss 😘💕";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
         case 14: // Valentine's Day
           title = "Be My Valentine Forever?";
           mainEmoji = "💘";
           floating = ["💘","❤️","💖","💗","💕","💞"];
           successMsg = "Happy Valentine's Day, my love! 💘";
-		  photoUrls = ["images/memory.jpg", "..."];
+          photoUrls = ["images/memory.jpg", "..."];
           break;
       }
     }
@@ -480,7 +485,7 @@
       "Still no? 😤💦",
       "You're too cruel... 🥀",
       "My heart can't take this anymore 💔",
-	  "Mukka khayega re Runniyyaaa ab 👊🤥"
+      "Mukka khayega re Runniyyaaa ab 👊🤥"
     ];
 
     noBtn.addEventListener("click", (e) => {
@@ -504,6 +509,60 @@
       questionContainer.classList.add("hidden");
       document.getElementById("yesSection").classList.add("show");
     });
+
+    // =================================================
+    //     Valentine Week Background Music
+    //     Plays only after user interaction
+    // =================================================
+
+    const dayMusicMap = {
+      7:  "music/florews-valentine-day.mp3",          // Rose Day
+      8:  "music/florews-valentine-day.mp3",   // Propose Day
+      9:  "music/florews-valentine-day.mp3",    // Chocolate Day
+      10: "music/florews-valentine-day.mp3",         // Teddy Day
+      11: "music/florews-valentine-day.mp3",  // Promise Day
+      12: "music/florews-valentine-day.mp3",           // Hug Day
+      13: "music/florews-valentine-day.mp3",       // Kiss Day
+      14: "music/florews-valentine-day.mp3"     // Valentine's Day
+    };
+
+    const defaultMusic = "music/florews-valentine-day.mp3";
+
+    const audio = document.getElementById("bgMusic");
+
+    // Select music based on the day
+    let selectedSrc = defaultMusic;
+    if (month === 2 && day >= 7 && day <= 14) {
+      selectedSrc = dayMusicMap[day] || defaultMusic;
+    }
+    audio.src = selectedSrc;
+    audio.volume = 0.25; // gentle volume
+
+    // Only start music after user interaction (browser policy)
+    let musicStarted = false;
+
+    function tryPlayMusic() {
+      if (musicStarted) return;
+      audio.play()
+        .then(() => {
+          musicStarted = true;
+        })
+        .catch(() => {
+          // fail silently — user may need to interact again
+        });
+    }
+
+    // Trigger on Yes click (most reliable)
+    yesBtn.addEventListener("click", tryPlayMusic);
+
+    // Also allow starting on No clicks (in case they keep clicking No)
+    noBtn.addEventListener("click", tryPlayMusic);
+
+    // Optional: small chance to start after a delay (some browsers allow it)
+    setTimeout(() => {
+      if (!musicStarted) tryPlayMusic();
+    }, 2500);
+
   </script>
 
 </body>
