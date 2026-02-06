@@ -302,19 +302,8 @@
   <div id="yesSection">
     <div class="message" id="successMessage">Yayyyy! I knew you'd say Yes 💕💖</div>
     
-    <div class="photos">
-      <div class="photo-card">
-        <img src="images/memory.jpg" alt="Memory 1">
-      </div>
-      <div class="photo-card">
-        <img src="images/memory.jpg" alt="Memory 2">
-      </div>
-      <!-- <div class="photo-card">
-        <img src="images/memory.jpg" alt="Memory 3">
-      </div>
-      <div class="photo-card">
-        <img src="images/memory.jpg" alt="Memory 4">
-      </div> -->
+    <div class="photos" id="photosContainer">
+      <!-- photos will be added here dynamically -->
     </div>
 
     <p class="tag">You're mine forever now 💞✨</p>
@@ -338,6 +327,9 @@
     let afterNoTitle = "Still have a chance to be my Valentine? 🥺💔";
     let afterNoHint = "Please... reconsider? 🥹";
 
+    // Default photos (used when not in Valentine week or no specific day match)
+    let photoUrls = ["images/memory.jpg", "images/memory.jpg"];
+
     if (month === 2 && day >= 6 && day <= 14) {
       switch(day) {
         case 7: // Rose Day
@@ -352,7 +344,7 @@
           mainEmoji = "💍";
           floating = ["💍","💎","💒","💕","❤️"];
           successMsg = "YES! You just made me the happiest! 💍🥹";
-          photoUrls = ["images/propose.jpg", "images/propose2.jpg", "..."];
+          photoUrls = ["images/propose.jpg", "images/propose2.jpg"];
           break;
         case 9: // Chocolate Day
           title = "Will You Be My Sweetheart?";
@@ -553,7 +545,7 @@
       }
     });
 
-    // When user clicks YES → happy / valentine music
+    // When user clicks YES → happy / valentine music + load correct photos
     yesBtn.addEventListener("click", () => {
       questionContainer.classList.add("hidden");
       document.getElementById("yesSection").classList.add("show");
@@ -567,6 +559,19 @@
       setMusic(happySrc);
       currentMood = "happy";
       tryStartMusic();
+
+      // =====================================
+      // Load date-specific photos dynamically
+      // =====================================
+      const photosContainer = document.getElementById("photosContainer");
+      photosContainer.innerHTML = ""; // clear default/hardcoded photos
+
+      photoUrls.forEach((url, index) => {
+        const card = document.createElement("div");
+        card.className = "photo-card";
+        card.innerHTML = `<img src="${url}" alt="Memory ${index + 1}">`;
+        photosContainer.appendChild(card);
+      });
     });
 
   </script>
